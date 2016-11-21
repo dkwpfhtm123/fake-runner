@@ -1,0 +1,619 @@
+fileFormatVersion: 2
+guid: 19815e4b5dbb30f47a6ae46232a626c1
+timeCreated: 1479511937
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Tiles RandomItemBox#1
+    21300002: Tiles RandomItemBox#2
+    21300004: Tiles RandomItemBox#3
+    21300006: Tiles RandomItemBox#4
+    21300008: Tiles RedTiles LeftUp
+    21300010: Tiles RedTiles MiddleUp
+    21300012: Tiles RedTiles RightUp
+    21300014: Tiles RedTiles LeftMiddle
+    21300016: Tiles RedTiles Middle
+    21300018: Tiles RedTiles RightMiddle
+    21300020: Tiles RedTiles LeftDown
+    21300022: Tiles RedTiles MiddleDown
+    21300024: Tiles RedTiles RightDown
+    21300026: Tiles GoldTiles#1
+    21300028: Tiles GoldTiles#2
+    21300030: Tiles GoldTiles#3
+    21300032: Tiles GoldTiles#4
+    21300034: Tiles Dust#1
+    21300036: Tiles Dust#2
+    21300038: Tiles dust#3
+    21300040: Tiles Dust#4
+    21300042: Tiles Dust#5
+    21300044: Tiles Dust#6
+    21300046: Tiles Dust#7
+    21300048: Tiles Dust#8
+    21300050: Tiles RedTiles Shadow RightUp
+    21300052: Tiles RedTiles Shadow RightMiddle
+    21300054: Tiles RedTiles Shadow RightDown
+    21300056: Tiles GreenTiles LeftUp
+    21300058: Tiles GreenTiles LeftMiddle
+    21300060: Tiles GreenTiles LeftDown
+    21300062: Tiles GreenTiles MiddleUp
+    21300064: Tiles GreenTiles Middle
+    21300066: Tiles GreenTiles MiddleDown
+    21300068: Tiles GreenTiles RightUp
+    21300070: Tiles GreenTiles RightMiddle
+    21300072: Tiles GreenTiles RightDown
+    21300074: Tiles GreenTiles Shadow RightUp
+    21300076: Tiles GreenTiles Shadow RightMiddle
+    21300078: Tiles GreenTiles Shadow RightDown
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Tiles RandomItemBox#1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 484
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles RandomItemBox#2
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 484
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles RandomItemBox#3
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 484
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles RandomItemBox#4
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 484
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles RedTiles LeftUp
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 484
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles RedTiles MiddleUp
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 484
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles RedTiles RightUp
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 484
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles RedTiles LeftMiddle
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 467
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles RedTiles Middle
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 467
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles RedTiles RightMiddle
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 467
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles RedTiles LeftDown
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 450
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles RedTiles MiddleDown
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 450
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles RedTiles RightDown
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 450
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GoldTiles#1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 467
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GoldTiles#2
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 467
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GoldTiles#3
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 467
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GoldTiles#4
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 467
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles Dust#1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 399
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles Dust#2
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 399
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles dust#3
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 399
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles Dust#4
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 399
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles Dust#5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 382
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles Dust#6
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 382
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles Dust#7
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 382
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles Dust#8
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 382
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles RedTiles Shadow RightUp
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 484
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles RedTiles Shadow RightMiddle
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 467
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles RedTiles Shadow RightDown
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 450
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GreenTiles LeftUp
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 484
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GreenTiles LeftMiddle
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 467
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GreenTiles LeftDown
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 450
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GreenTiles MiddleUp
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 484
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GreenTiles Middle
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 467
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GreenTiles MiddleDown
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 450
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GreenTiles RightUp
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 484
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GreenTiles RightMiddle
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 467
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GreenTiles RightDown
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 450
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GreenTiles Shadow RightUp
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 484
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GreenTiles Shadow RightMiddle
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 467
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles GreenTiles Shadow RightDown
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 450
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

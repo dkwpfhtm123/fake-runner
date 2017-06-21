@@ -1,55 +1,55 @@
 fileFormatVersion: 2
 guid: 19815e4b5dbb30f47a6ae46232a626c1
-timeCreated: 1479511937
+timeCreated: 1496544065
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Tiles RandomItemBox#1
-    21300002: Tiles RandomItemBox#2
-    21300004: Tiles RandomItemBox#3
-    21300006: Tiles RandomItemBox#4
-    21300008: Tiles RedTiles LeftUp
-    21300010: Tiles RedTiles MiddleUp
-    21300012: Tiles RedTiles RightUp
-    21300014: Tiles RedTiles LeftMiddle
-    21300016: Tiles RedTiles Middle
-    21300018: Tiles RedTiles RightMiddle
-    21300020: Tiles RedTiles LeftDown
-    21300022: Tiles RedTiles MiddleDown
-    21300024: Tiles RedTiles RightDown
-    21300026: Tiles GoldTiles#1
-    21300028: Tiles GoldTiles#2
-    21300030: Tiles GoldTiles#3
-    21300032: Tiles GoldTiles#4
-    21300034: Tiles Dust#1
-    21300036: Tiles Dust#2
-    21300038: Tiles dust#3
-    21300040: Tiles Dust#4
-    21300042: Tiles Dust#5
-    21300044: Tiles Dust#6
-    21300046: Tiles Dust#7
-    21300048: Tiles Dust#8
-    21300050: Tiles RedTiles Shadow RightUp
-    21300052: Tiles RedTiles Shadow RightMiddle
-    21300054: Tiles RedTiles Shadow RightDown
-    21300056: Tiles GreenTiles LeftUp
-    21300058: Tiles GreenTiles LeftMiddle
-    21300060: Tiles GreenTiles LeftDown
-    21300062: Tiles GreenTiles MiddleUp
-    21300064: Tiles GreenTiles Middle
-    21300066: Tiles GreenTiles MiddleDown
-    21300068: Tiles GreenTiles RightUp
-    21300070: Tiles GreenTiles RightMiddle
-    21300072: Tiles GreenTiles RightDown
-    21300074: Tiles GreenTiles Shadow RightUp
-    21300076: Tiles GreenTiles Shadow RightMiddle
-    21300078: Tiles GreenTiles Shadow RightDown
-  serializedVersion: 2
+    21300000: RandomItemBox#1
+    21300002: RandomItemBox#2
+    21300004: RandomItemBox#3
+    21300006: RandomItemBox#4
+    21300008: RedTile LeftUp
+    21300010: RedTile MiddleUp
+    21300012: RedTile RightUp
+    21300014: RedTile LeftMiddle
+    21300016: RedTile Middle
+    21300018: RedTile RightMiddle
+    21300020: RedTile LeftDown
+    21300022: RedTile MiddleDown
+    21300024: RedTile RightDown
+    21300026: GoldTile#1
+    21300028: GoldTile#2
+    21300030: GoldTile#3
+    21300032: GoldTile#4
+    21300034: Dust#1
+    21300036: Dust#2
+    21300038: Dust#3
+    21300040: Dust#4
+    21300042: Dust#5
+    21300044: Dust#6
+    21300046: Dust#7
+    21300048: Dust#8
+    21300050: RedTile Shadow RightUp
+    21300052: RedTile Shadow RightMiddle
+    21300054: RedTile Shadow RightDown
+    21300056: GreenTile LeftUp
+    21300058: GreenTile LeftMiddle
+    21300060: GreenTile LeftDown
+    21300062: GreenTile MiddleUp
+    21300064: GreenTile Middle
+    21300066: GreenTile MiddleDown
+    21300068: GreenTile RightUp
+    21300070: GreenTile RightMiddle
+    21300072: GreenTile RightDown
+    21300074: GreenTile Shadow RightUp
+    21300076: GreenTile Shadow RightMiddle
+    21300078: GreenTile Shadow RightDown
+  serializedVersion: 4
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
+    sRGBTexture: 1
     linearTexture: 0
-    correctGamma: 0
     fadeOut: 0
     borderMipMap: 0
     mipMapFadeDistanceStart: 1
@@ -61,10 +61,8 @@ TextureImporter:
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
-  generateCubemap: 0
+  generateCubemap: 6
   cubemapConvolution: 0
-  cubemapConvolutionSteps: 7
-  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -3
   maxTextureSize: 2048
@@ -75,9 +73,7 @@ TextureImporter:
     wrapMode: 1
   nPOTScale: 0
   lightmap: 0
-  rGBM: 0
   compressionQuality: 50
-  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
@@ -85,28 +81,49 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
+  alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
-  buildTargetSettings: []
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tiles RandomItemBox#1
+      name: RandomItemBox#1
       rect:
         serializedVersion: 2
         x: 0
         y: 484
         width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles RandomItemBox#2
+      name: RandomItemBox#2
       rect:
         serializedVersion: 2
         x: 17
@@ -119,7 +136,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles RandomItemBox#3
+      name: RandomItemBox#3
       rect:
         serializedVersion: 2
         x: 34
@@ -132,7 +149,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles RandomItemBox#4
+      name: RandomItemBox#4
       rect:
         serializedVersion: 2
         x: 51
@@ -145,7 +162,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles RedTiles LeftUp
+      name: RedTile LeftUp
       rect:
         serializedVersion: 2
         x: 136
@@ -158,7 +175,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles RedTiles MiddleUp
+      name: RedTile MiddleUp
       rect:
         serializedVersion: 2
         x: 153
@@ -171,7 +188,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles RedTiles RightUp
+      name: RedTile RightUp
       rect:
         serializedVersion: 2
         x: 170
@@ -184,7 +201,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles RedTiles LeftMiddle
+      name: RedTile LeftMiddle
       rect:
         serializedVersion: 2
         x: 136
@@ -197,7 +214,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles RedTiles Middle
+      name: RedTile Middle
       rect:
         serializedVersion: 2
         x: 153
@@ -210,7 +227,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles RedTiles RightMiddle
+      name: RedTile RightMiddle
       rect:
         serializedVersion: 2
         x: 170
@@ -223,7 +240,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles RedTiles LeftDown
+      name: RedTile LeftDown
       rect:
         serializedVersion: 2
         x: 136
@@ -236,7 +253,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles RedTiles MiddleDown
+      name: RedTile MiddleDown
       rect:
         serializedVersion: 2
         x: 153
@@ -249,7 +266,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles RedTiles RightDown
+      name: RedTile RightDown
       rect:
         serializedVersion: 2
         x: 170
@@ -262,163 +279,163 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GoldTiles#1
+      name: GoldTile#1
       rect:
         serializedVersion: 2
         x: 0
         y: 467
         width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GoldTiles#2
+      name: GoldTile#2
       rect:
         serializedVersion: 2
         x: 17
         y: 467
         width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GoldTiles#3
+      name: GoldTile#3
       rect:
         serializedVersion: 2
         x: 34
         y: 467
         width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GoldTiles#4
+      name: GoldTile#4
       rect:
         serializedVersion: 2
         x: 51
         y: 467
         width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles Dust#1
+      name: Dust#1
       rect:
         serializedVersion: 2
         x: 0
         y: 399
         width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles Dust#2
+      name: Dust#2
       rect:
         serializedVersion: 2
         x: 17
         y: 399
         width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles dust#3
+      name: Dust#3
       rect:
         serializedVersion: 2
         x: 34
         y: 399
         width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles Dust#4
+      name: Dust#4
       rect:
         serializedVersion: 2
         x: 51
         y: 399
         width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles Dust#5
+      name: Dust#5
       rect:
         serializedVersion: 2
         x: 0
         y: 382
         width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles Dust#6
+      name: Dust#6
       rect:
         serializedVersion: 2
         x: 17
         y: 382
         width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles Dust#7
+      name: Dust#7
       rect:
         serializedVersion: 2
         x: 34
         y: 382
         width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles Dust#8
+      name: Dust#8
       rect:
         serializedVersion: 2
         x: 51
         y: 382
         width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles RedTiles Shadow RightUp
+      name: RedTile Shadow RightUp
       rect:
         serializedVersion: 2
         x: 187
@@ -431,7 +448,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles RedTiles Shadow RightMiddle
+      name: RedTile Shadow RightMiddle
       rect:
         serializedVersion: 2
         x: 187
@@ -444,7 +461,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles RedTiles Shadow RightDown
+      name: RedTile Shadow RightDown
       rect:
         serializedVersion: 2
         x: 187
@@ -457,7 +474,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GreenTiles LeftUp
+      name: GreenTile LeftUp
       rect:
         serializedVersion: 2
         x: 204
@@ -470,7 +487,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GreenTiles LeftMiddle
+      name: GreenTile LeftMiddle
       rect:
         serializedVersion: 2
         x: 204
@@ -483,7 +500,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GreenTiles LeftDown
+      name: GreenTile LeftDown
       rect:
         serializedVersion: 2
         x: 204
@@ -496,7 +513,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GreenTiles MiddleUp
+      name: GreenTile MiddleUp
       rect:
         serializedVersion: 2
         x: 221
@@ -509,7 +526,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GreenTiles Middle
+      name: GreenTile Middle
       rect:
         serializedVersion: 2
         x: 221
@@ -522,7 +539,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GreenTiles MiddleDown
+      name: GreenTile MiddleDown
       rect:
         serializedVersion: 2
         x: 221
@@ -535,7 +552,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GreenTiles RightUp
+      name: GreenTile RightUp
       rect:
         serializedVersion: 2
         x: 238
@@ -548,7 +565,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GreenTiles RightMiddle
+      name: GreenTile RightMiddle
       rect:
         serializedVersion: 2
         x: 238
@@ -561,7 +578,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GreenTiles RightDown
+      name: GreenTile RightDown
       rect:
         serializedVersion: 2
         x: 238
@@ -574,7 +591,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GreenTiles Shadow RightUp
+      name: GreenTile Shadow RightUp
       rect:
         serializedVersion: 2
         x: 255
@@ -587,7 +604,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GreenTiles Shadow RightMiddle
+      name: GreenTile Shadow RightMiddle
       rect:
         serializedVersion: 2
         x: 255
@@ -600,7 +617,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tiles GreenTiles Shadow RightDown
+      name: GreenTile Shadow RightDown
       rect:
         serializedVersion: 2
         x: 255

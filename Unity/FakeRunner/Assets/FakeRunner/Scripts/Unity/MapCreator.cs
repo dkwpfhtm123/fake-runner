@@ -108,16 +108,16 @@ namespace Fake.FakeRunner.Unity
                 if (section < 0)
                 {
                     StartSectionTile(section);
-                    UpdateTiles(section, section + 1);
+                    UpdateObject(section, section + 1);
                 }
                 else if (section > 10)
                 {
                     EndSectionTile(section);
-                    UpdateTiles(section - 1, section);
+                    UpdateObject(section - 1, section);
                 }
                 else
                 {
-                    UpdateTiles(section - 1, section + 1);
+                    UpdateObject(section - 1, section + 1);
                 }
             }
         }
@@ -154,7 +154,7 @@ namespace Fake.FakeRunner.Unity
             }
         }
 
-        private void UpdateTiles(int minSection, int maxSection)
+        private void UpdateObject(int minSection, int maxSection)
         {
             for (int i = minSection; i <= maxSection; i++)
             {
@@ -230,7 +230,7 @@ namespace Fake.FakeRunner.Unity
                     freeTiles.Add(CreateFreeObject(tile));
 
                 var allocatedFreeTile = freeTiles[freeTiles.Count - 1];
-                allocatedFreeTile.GetComponent<SpriteRenderer>().sprite = tile.GetComponent<SpriteRenderer>().sprite; 
+
                 allocatedFreeTile.SetActive(true);
                 allocatedFreeTile.transform.parent = tileParent.transform;
                 allocatedTiles.Add(allocatedFreeTile);
@@ -242,19 +242,16 @@ namespace Fake.FakeRunner.Unity
 
         private GameObject AllocateHealthPacks(GameObject healthPack)
         {
-            while (true)
-            {
-                if (freeHealthPacks.Count == 0)
-                    freeHealthPacks.Add(CreateFreeObject(healthPack));
+            if (freeHealthPacks.Count == 0)
+                freeHealthPacks.Add(CreateFreeObject(healthPack));
 
-                var allocatedHelathPack = freeHealthPacks[freeHealthPacks.Count - 1];
-                allocatedHelathPack.SetActive(true);
-                allocatedHelathPack.transform.parent = healthPackParent.transform;
-                allocatedHealthPacks.Add(allocatedHelathPack);
-                freeHealthPacks.Remove(allocatedHelathPack);
+            var allocatedHelathPack = freeHealthPacks[freeHealthPacks.Count - 1];
+            allocatedHelathPack.SetActive(true);
+            allocatedHelathPack.transform.parent = healthPackParent.transform;
+            allocatedHealthPacks.Add(allocatedHelathPack);
+            freeHealthPacks.Remove(allocatedHelathPack);
 
-                return allocatedHelathPack;
-            }
+            return allocatedHelathPack;
         }
 
         private void UpdateHealthPacks(int minSection, int maxSection)

@@ -24,6 +24,7 @@ namespace Fake.FakeRunner.Unity
         private List<GameObject> allocatedTiles;
         private List<GameObject> freeHealthPacks;
         private List<GameObject> allocatedHealthPacks;
+        private List<Vector2> objectPosition;
         private List<int> healthPackSections;
 
         private Camera cameraCache;
@@ -51,7 +52,9 @@ namespace Fake.FakeRunner.Unity
             allocatedHealthPacks = new List<GameObject>();
             freeHealthPacks = new List<GameObject>();
             healthPackSections = new List<int>();
+            objectPosition = new List<Vector2>();
             cameraCache = GetComponent<Camera>();
+            random = new System.Random();
             oldSection = -100;
             sectionChange = false;
         }
@@ -70,26 +73,14 @@ namespace Fake.FakeRunner.Unity
 
                 UpdateTiles();
 
-                UpdateHealthPacks(section - 1, section + 1);
-
                 sectionChange = false;
             }
         }
 
-        private GameObject CreateFreeObject(GameObject freeObject)
-        {
-            var createdObject = Instantiate(freeObject);
-            createdObject.SetActive(false);
-
-            return createdObject;
-        }
-
-#region Tiles
         private void UpdateTiles()
         {
             if (sectionChange == true)
             {
-               
                 foreach (var tile in allocatedTiles)
                 {
                     if (tile.GetComponent<TileJump>() != null)
@@ -103,7 +94,16 @@ namespace Fake.FakeRunner.Unity
                     freeTiles.Add(tile);
                 }
 
+                for (int i = 0; i < allocatedHealthPacks.Count; i++)
+                {
+                    var healthPack = allocatedHealthPacks[i];
+                    healthPack.SetActive(false);
+                    freeHealthPacks.Add(healthPack);
+                }
+
                 allocatedTiles.Clear();
+                allocatedHealthPacks.Clear();
+                objectPosition.Clear();
 
                 if (section < 0)
                 {
@@ -122,95 +122,123 @@ namespace Fake.FakeRunner.Unity
             }
         }
 
-        private GameObject AllocateTile(GameObject tile)
-        {
-            while (true)
-            {
-                if (freeTiles.Count == 0)
-                {
-                    freeTiles.Add(CreateFreeObject(tile));
-                    // 리스트에 추가
-                }
-
-                freeTiles[0].GetComponent<SpriteRenderer>().sprite = tile.GetComponent<SpriteRenderer>().sprite;
-                freeTiles[0].SetActive(true);
-                freeTiles[0].transform.parent = tileParent.transform;
-                allocatedTiles.Add(freeTiles[freeTiles.Count]);
-                freeTiles.Remove(freeTiles[freeTiles.Count]);
-
-                return freeTiles[freeTiles.Count];
-            }
-        }
-
         private void StartSectionTile(int startSection)
         {
             for (int k = 0; k < 10; k++)
             {
-                PlaceTile(startSection * 10 + k, 0, dirtTile[Random.Range(0, dirtTile.Count - 1)]);
+                PlaceObject(startSection * 10 + k, 0, dirtTile[random.Next(0, dirtTile.Count)]);
             }
 
             for (int k = 0; k < 10; k++)
             {
-                PlaceTile(startSection * 10, k, goldTile);
+                PlaceObject(startSection * 10, k, goldTile);
             }
 
             // Pipe
-            PlaceTile(-8, 1, goldTile);
-            PlaceTile(-8, 2, goldTile);
-            PlaceTile(-9, 1, goldTile);
-            PlaceTile(-9, 2, goldTile);
+            PlaceObject(-8, 1, goldTile);
+            PlaceObject(-8, 2, goldTile);
+            PlaceObject(-9, 1, goldTile);
+            PlaceObject(-9, 2, goldTile);
         }
 
         private void EndSectionTile(int endSection)
         {
             for (int k = 0; k < 10; k++)
             {
-                PlaceTile(endSection * 10 + k, 0, dirtTile[Random.Range(0, dirtTile.Count - 1)]);
+                PlaceObject(endSection * 10 + k, 0, dirtTile[random.Next(0, dirtTile.Count)]);
             }
 
             for (int k = 0; k < 10; k++)
             {
-                PlaceTile(endSection * 10 + 9, k, goldTile);
+                PlaceObject(endSection * 10 + 9, k, goldTile);
             }
         }
 
         private void UpdateTiles(int minSection, int maxSection)
         {
-            List<Vector2> check = new List<Vector2>();
-
             for (int i = minSection; i <= maxSection; i++)
             {
                 random = new System.Random(i);
 
                 for (int k = 0; k < 15; k++)
                 {
-                    var x = random.Next(i * 10 + 1, (i + 1) * 10);
-                    var y = random.Next(0, 10);
+                    var position = ReturnRandomPosition(i);
 
-                    if (check.Contains(new Vector2(x, y)) == false)
-                    {
-                        check.Add(new Vector2(x, y));
-                        PlaceTile(x, y, goldTile);
-                    }
+                    PlaceObject((int)position.x, (int)position.y, goldTile);
+                }
+
+                for (int k = 0; k < 2; k++)
+                {
+                    var position = ReturnRandomPosition(i);
+
+                    PlaceObject((int)position.x, (int)position.y, healthPackPrefab);
                 }
 
                 for (int k = 0; k < 10; k++)
                 {
-                    PlaceTile(i * 10 + k, 0, dirtTile[Random.Range(0, dirtTile.Count)]);
+                    PlaceObject(i * 10 + k, 0, dirtTile[random.Next(0, dirtTile.Count)]);
                 }
             }
         }
 
-        private void PlaceTile(int x, int y, GameObject tile)
+        private Vector2 ReturnRandomPosition(int section)
         {
-            var createdTile = AllocateTile(tile);
+            random = new System.Random(section);
 
-            if (createdTile.GetComponent<TileAnimation>() != null)
-                StartCoroutine(createdTile.GetComponent<TileAnimation>().DoAnimateTile());
+            while (true)
+            {
+                var x = random.Next(section * 10 + 1, (section + 1) * 10);
+                var y = random.Next(1, 10);
 
-            createdTile.transform.localPosition = new Vector3(x, y, 0);
+                if (objectPosition.Contains(new Vector2(x, y)) == false)
+                {
+                    objectPosition.Add(new Vector2(x, y));
+                    return new Vector2(x, y);
+                }
+            }
         }
-        #endregion
+
+        private void PlaceObject(int x, int y, GameObject obj)
+        {
+            var createdObject = obj;
+
+            if (createdObject == healthPackPrefab)
+                createdObject = AllocateHealthPacks(obj);
+            else
+                createdObject = AllocateTile(obj);
+
+            if (createdObject.GetComponent<TileAnimation>() != null)
+                StartCoroutine(createdObject.GetComponent<TileAnimation>().DoAnimateTile());
+
+            createdObject.transform.localPosition = new Vector3(x, y, 0);
+        }
+
+
+        private GameObject CreateFreeObject(GameObject freeObject)
+        {
+            var createdObject = Instantiate(freeObject);
+            createdObject.SetActive(false);
+
+            return createdObject;
+        }
+
+        private GameObject AllocateTile(GameObject tile)
+        {
+            while (true)
+            {
+                if (freeTiles.Count == 0)
+                    freeTiles.Add(CreateFreeObject(tile));
+
+                var allocatedFreeTile = freeTiles[freeTiles.Count - 1];
+                allocatedFreeTile.GetComponent<SpriteRenderer>().sprite = tile.GetComponent<SpriteRenderer>().sprite; 
+                allocatedFreeTile.SetActive(true);
+                allocatedFreeTile.transform.parent = tileParent.transform;
+                allocatedTiles.Add(allocatedFreeTile);
+                freeTiles.Remove(allocatedFreeTile);
+
+                return allocatedFreeTile;
+            }
+        }
 
         private GameObject AllocateHealthPacks(GameObject healthPack)
         {
@@ -254,18 +282,10 @@ namespace Fake.FakeRunner.Unity
                         var x = random.Next(i * 10 + 1, (i + 1) * 10);
                         var y = random.Next(1, 10);
 
-                        PlaceHealthPacks(x, y);
+                        PlaceObject(x, y, healthPackPrefab);
                     }
                 }
             }
-        }
-
-        private void PlaceHealthPacks(int x, int y)
-        {
-            AllocateHealthPacks(healthPackPrefab);
-
-            var pack = allocatedHealthPacks[allocatedHealthPacks.Count - 1];
-            pack.transform.localPosition = new Vector3(x, y);
         }
     }
 }

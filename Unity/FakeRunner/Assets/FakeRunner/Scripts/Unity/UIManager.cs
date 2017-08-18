@@ -18,6 +18,7 @@ namespace Fake.FakeRunner.Unity
 
         private bool OptionIsPlaying;
         #endregion
+
         void Start()
         {
             OptionIsPlaying = false;
@@ -81,8 +82,7 @@ namespace Fake.FakeRunner.Unity
             gameoverPanel.SetActive(true);
 
             Super.Instance.SetRunnerControl(false);
-            Super.Instance.GameplayTimeline.Scale = 0.0f;
-            Super.Instance.AnimationTimeline.Scale = 1.0f;
+            Super.Instance.GameplayTimeline.StopTime();
 
             gameoverBackground.alpha = 1.0f;
 
@@ -106,9 +106,11 @@ namespace Fake.FakeRunner.Unity
         {
             gameoverPanel.SetActive(false);
             Super.Instance.SetRunnerControl(true);
-            Super.Instance.GameplayTimeline.Scale = 1.0f;
-            Super.Instance.AnimationTimeline.Scale = 1.0f;
+            Super.Instance.GameplayTimeline.SetTimeScale(1.0f);
+            Super.Instance.AnimationTimeline.SetTimeScale(1.0f);
             Super.Instance.GameplayTimeline.CurrentTime = 0.0f;
+
+            Super.Instance.ClearBlackBoxs();
 
             Super.Instance.StartMovie();
         }

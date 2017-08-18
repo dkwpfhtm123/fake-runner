@@ -21,15 +21,15 @@ namespace Fake.FakeRunner.Unity
         {
             var time = 0.0f;
 
-            while (Super.Instance.StopAnimation == false)
+            while (true)
             {
                 if (spriteRendererCache == null)
                     spriteRendererCache = GetComponent<SpriteRenderer>();
 
-                time += Super.Instance.GameplayTimeline.DeltaTime;
+                time += Super.Instance.AnimationTimeline.DeltaTime;
 
-                var interval = 0.4f * Super.Instance.GameplayTimeline.Scale;
-                var tileLength = tileSprites.Length * Super.Instance.GameplayTimeline.Scale;
+                var interval = 0.4f;
+                var tileLength = tileSprites.Length;
 
                 spriteRendererCache.sprite = tileSprites[(int)(System.Math.Truncate(time / interval) % tileLength)];
                 yield return null;

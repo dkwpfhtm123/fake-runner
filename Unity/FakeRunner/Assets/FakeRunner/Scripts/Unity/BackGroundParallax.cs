@@ -4,6 +4,7 @@ namespace Fake.FakeRunner.Unity
 {
     public class BackGroundParallax : MonoBehaviour
     {
+        #region Fields
         [SerializeField]
         private float offset;
 
@@ -17,7 +18,8 @@ namespace Fake.FakeRunner.Unity
             get { return camera; }
             set { camera = value; }
         }
-        
+        #endregion
+
         void Start()
         {
             transformCache = GetComponent<Transform>();
@@ -26,18 +28,15 @@ namespace Fake.FakeRunner.Unity
 
         void Update()
         {
-            if (oldCameraPosition == null)
+            if (oldCameraPosition != camera.transform.localPosition)
                 oldCameraPosition = camera.transform.localPosition;
 
             transformCache.localPosition = new Vector3(camera.transform.localPosition.x - camera.transform.localPosition.x / offset % 20, 5);
 
             if (Mathf.Abs(oldCameraPosition.x - camera.transform.localPosition.x) > 20.0f / offset)
             {
-                Debug.Log(transform.localPosition);
-                Debug.Log(camera.transform.localPosition);
-
                 oldCameraPosition = camera.transform.localPosition;
-                camera.GetComponent<BackGroundAnimation>().PlaceBackGround(gameObject);
+                camera.GetComponent<BackGrounds>().ResetBackGround(gameObject);
                 Destroy(gameObject);
             }
         }

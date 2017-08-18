@@ -10,14 +10,14 @@ namespace Fake.FakeRunner.Unity
         [SerializeField]
         private Vector3 offset;
 
+        private Transform transformCache;
+        private Transform runnerTransformCache;
+
         public Vector3 Offset
         {
             get { return offset; }
             set { offset = value; }
         }
-
-        private Transform transformCache;
-        private Transform runnerTransformCache;
         #endregion
 
         private void Awake()

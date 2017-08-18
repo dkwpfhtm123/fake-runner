@@ -1,79 +1,108 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+
 namespace Fake.FakeRunner.Unity
 {
     public class MapCreator : MonoBehaviour
     {
         #region Fields
         [SerializeField]
-        private GameObject goldTile;
+        private GameObject goldTilePrefab;
         [SerializeField]
-        private List<GameObject> dirtTile;
+        private GameObject dirtTile;
         [SerializeField]
         private Runner runner;
         [SerializeField]
-        private GameObject tileParent;
-        [SerializeField]
-        private GameObject healthPackParent;
-        [SerializeField]
         private GameObject healthPackPrefab;
-
+        [SerializeField]
+        private GameObject parachuteKumbaPrefab;
+        [SerializeField]
+        private GameObject parentObject;
         private Transform transformCache;
-        private List<GameObject> freeTiles;
-        private List<GameObject> allocatedTiles;
-        private List<GameObject> freeHealthPacks;
-        private List<GameObject> allocatedHealthPacks;
-        private List<Vector2> objectPosition;
-        private List<int> healthPackSections;
 
-        private Camera cameraCache;
+        private TilePool goldTilePool;
+        private TilePool dirtTilePool;
+        private TilePool healthpackPool;
+        private GameObjectPool parachuteKumbaPool;
+        private List<Vector2> tilePositions;
         private System.Random random;
-        private int section;
+        private int currentSection;
         private int oldSection;
         private bool sectionChange;
+        private float difficulty;
+        private float countDown;
 
-        public List<GameObject> AllocatedTiles
+        public TilePool GoldTilePool
         {
-            get { return allocatedTiles; }
+            get { return goldTilePool; }
         }
 
-        public List<GameObject> HealthPacks
+        public TilePool HealthpackPool
         {
-            get { return allocatedHealthPacks; }
+            get { return healthpackPool; }
+        }
+
+        public TilePool DirtTilePool
+        {
+            get { return dirtTilePool; }
+        }
+
+        public GameObjectPool ParachuteKumbaPool
+        {
+            get { return parachuteKumbaPool; }
         }
         #endregion
 
         private void Start()
         {
             transformCache = GetComponent<Transform>();
-            freeTiles = new List<GameObject>();
-            allocatedTiles = new List<GameObject>();
-            allocatedHealthPacks = new List<GameObject>();
-            freeHealthPacks = new List<GameObject>();
-            healthPackSections = new List<int>();
-            objectPosition = new List<Vector2>();
-            cameraCache = GetComponent<Camera>();
+
+            goldTilePool = new TilePool(goldTilePrefab, parentObject, "GoldTile");
+            healthpackPool = new TilePool(healthPackPrefab, parentObject, "HealthPack");
+            dirtTilePool = new TilePool(dirtTile, parentObject, "DirtTile");
+            parachuteKumbaPool = new GameObjectPool(parachuteKumbaPrefab, parentObject, "Kumba");
+
+            tilePositions = new List<Vector2>();
             random = new System.Random();
             oldSection = -100;
             sectionChange = false;
+
+            countDown = 5.0f;
+            difficulty = countDown;
         }
 
         private void Update()
         {
-            if (Super.Instance.StopAnimation == false)
+            currentSection = Mathf.FloorToInt(transformCache.localPosition.x / 10);
+
+            if (oldSection != currentSection)
             {
-                section = Mathf.FloorToInt(transformCache.localPosition.x / 10);
+                sectionChange = true;
+                oldSection = currentSection;
+            }
 
-                if (oldSection != section)
-                {
-                    sectionChange = true;
-                    oldSection = section;
-                }
+            UpdateTiles();
+            //      test();
 
-                UpdateTiles();
+            sectionChange = false;
 
-                sectionChange = false;
+            StageDifficulty();
+        }
+
+        private void StageDifficulty()
+        {
+            countDown -= Super.Instance.GameplayTimeline.DeltaTime;
+
+            if (countDown < 0.0f)
+            {
+                if (difficulty > 3.0f)
+                    difficulty *= 0.9f;
+
+                countDown = difficulty;
+                PlaceKumba(6, currentSection);
+
+                Debug.Log(countDown);
             }
         }
 
@@ -81,208 +110,123 @@ namespace Fake.FakeRunner.Unity
         {
             if (sectionChange == true)
             {
-                foreach (var tile in allocatedTiles)
+                foreach (var tile in goldTilePool.AllocateObjects)
                 {
                     if (tile.GetComponent<TileJump>() != null)
                         tile.GetComponent<TileJump>().StopTileJumping();
                 }
 
-                for (int i = 0; i < allocatedTiles.Count; i++)
-                {
-                    var tile = allocatedTiles[i];
-                    tile.SetActive(false);
-                    freeTiles.Add(tile);
-                }
+                FreeAllPool();
 
-                for (int i = 0; i < allocatedHealthPacks.Count; i++)
-                {
-                    var healthPack = allocatedHealthPacks[i];
-                    healthPack.SetActive(false);
-                    freeHealthPacks.Add(healthPack);
-                }
+                tilePositions.Clear();
 
-                allocatedTiles.Clear();
-                allocatedHealthPacks.Clear();
-                objectPosition.Clear();
+                if (currentSection < 0)
+                    StartSectionTile(currentSection);
 
-                if (section < 0)
-                {
-                    StartSectionTile(section);
-                    UpdateObject(section, section + 1);
-                }
-                else if (section > 10)
-                {
-                    EndSectionTile(section);
-                    UpdateObject(section - 1, section);
-                }
-                else
-                {
-                    UpdateObject(section - 1, section + 1);
-                }
+                PlaceSection(currentSection - 1, currentSection + 1);
+            }
+        }
+
+        public void Restart()
+        {
+            oldSection = -100;
+        }
+
+        public void FreeAllPool()
+        {
+            var poolList = new List<TilePool>();
+            poolList.Add(goldTilePool);
+            poolList.Add(dirtTilePool);
+            poolList.Add(healthpackPool);
+
+
+            foreach (var pool in poolList)
+            {
+                var temp = new List<GameObject>(pool.AllocateObjects);
+
+                foreach (var gameObject in temp)
+                    pool.Free(gameObject);
             }
         }
 
         private void StartSectionTile(int startSection)
         {
             for (int k = 0; k < 10; k++)
-            {
-                PlaceObject(startSection * 10 + k, 0, dirtTile[random.Next(0, dirtTile.Count)]);
-            }
-
-            for (int k = 0; k < 10; k++)
-            {
-                PlaceObject(startSection * 10, k, goldTile);
-            }
+                PlaceObject(new Vector2(startSection * 10, k), goldTilePool);
 
             // Pipe
-            PlaceObject(-8, 1, goldTile);
-            PlaceObject(-8, 2, goldTile);
-            PlaceObject(-9, 1, goldTile);
-            PlaceObject(-9, 2, goldTile);
+            PlaceObject(new Vector2(-8, 1), goldTilePool);
+            PlaceObject(new Vector2(-8, 2), goldTilePool);
+            PlaceObject(new Vector2(-9, 1), goldTilePool);
+            PlaceObject(new Vector2(-9, 2), goldTilePool);
         }
 
-        private void EndSectionTile(int endSection)
-        {
-            for (int k = 0; k < 10; k++)
-            {
-                PlaceObject(endSection * 10 + k, 0, dirtTile[random.Next(0, dirtTile.Count)]);
-            }
-
-            for (int k = 0; k < 10; k++)
-            {
-                PlaceObject(endSection * 10 + 9, k, goldTile);
-            }
-        }
-
-        private void UpdateObject(int minSection, int maxSection)
+        private void PlaceSection(int minSection, int maxSection)
         {
             for (int i = minSection; i <= maxSection; i++)
             {
-                random = new System.Random(i);
-
-                for (int k = 0; k < 15; k++)
-                {
-                    var position = ReturnRandomPosition(i);
-
-                    PlaceObject((int)position.x, (int)position.y, goldTile);
-                }
-
-                for (int k = 0; k < 2; k++)
-                {
-                    var position = ReturnRandomPosition(i);
-
-                    PlaceObject((int)position.x, (int)position.y, healthPackPrefab);
-                }
-
-                for (int k = 0; k < 10; k++)
-                {
-                    PlaceObject(i * 10 + k, 0, dirtTile[random.Next(0, dirtTile.Count)]);
-                }
+                PlaceObjectRandomPosiiton(i, 15, goldTilePool);
+                PlaceObjectRandomPosiiton(i, 2, healthpackPool);
+                PlaceDirtTiles(i, 10, dirtTilePool);
             }
         }
 
-        private Vector2 ReturnRandomPosition(int section)
+        private void PlaceObjectRandomPosiiton(int section, int count, TilePool pool)
+        {
+            for (int k = 0; k < count; k++)
+            {
+                var position = GetRandomPosition(section, section * 10 + 1, section * 10 + 10, 1, 10);
+
+                PlaceObject(position, pool);
+            }
+        }
+
+        private void PlaceDirtTiles(int section, int count, TilePool pool)
+        {
+            for (int k = 0; k < count; k++)
+            {
+                PlaceObject(new Vector2(section * 10 + k, 0), pool);
+            }
+        }
+
+        public void PlaceKumba(int count, int section)
+        {
+            for (int k = 0; k < count; k++)
+            {
+                var position = GetRandomPosition(section, (section - 1) * 10 + 1, (section + 1) * 10 + 10, 10, 15);
+
+                var createdobject = parachuteKumbaPool.Allocate();
+                createdobject.transform.localPosition = position;
+                createdobject.GetComponent<Kumba>().MapCreator = this;
+                createdobject.GetComponent<Kumba>().ChangeStartPosition();
+            }
+        }
+
+        private Vector2 GetRandomPosition(int section, int minX, int maxX, int minY, int maxY)
         {
             random = new System.Random(section);
 
             while (true)
             {
-                var x = random.Next(section * 10 + 1, (section + 1) * 10);
-                var y = random.Next(1, 10);
+                var x = random.Next(/* section * 10 */minX, maxX /*(section + 1) * 10*/);
+                var y = random.Next(minY, maxY);
 
-                if (objectPosition.Contains(new Vector2(x, y)) == false)
+                if (tilePositions.Contains(new Vector2(x, y)) == false)
                 {
-                    objectPosition.Add(new Vector2(x, y));
+                    tilePositions.Add(new Vector2(x, y));
                     return new Vector2(x, y);
                 }
             }
         }
 
-        private void PlaceObject(int x, int y, GameObject obj)
+        private void PlaceObject(Vector3 position, TilePool pool)
         {
-            var createdObject = obj;
-
-            if (createdObject == healthPackPrefab)
-                createdObject = AllocateHealthPacks(obj);
-            else
-                createdObject = AllocateTile(obj);
+            var createdObject = pool.Allocate();
 
             if (createdObject.GetComponent<TileAnimation>() != null)
                 StartCoroutine(createdObject.GetComponent<TileAnimation>().DoAnimateTile());
 
-            createdObject.transform.localPosition = new Vector3(x, y, 0);
-        }
-
-
-        private GameObject CreateFreeObject(GameObject freeObject)
-        {
-            var createdObject = Instantiate(freeObject);
-            createdObject.SetActive(false);
-
-            return createdObject;
-        }
-
-        private GameObject AllocateTile(GameObject tile)
-        {
-            while (true)
-            {
-                if (freeTiles.Count == 0)
-                    freeTiles.Add(CreateFreeObject(tile));
-
-                var allocatedFreeTile = freeTiles[freeTiles.Count - 1];
-
-                allocatedFreeTile.SetActive(true);
-                allocatedFreeTile.transform.parent = tileParent.transform;
-                allocatedTiles.Add(allocatedFreeTile);
-                freeTiles.Remove(allocatedFreeTile);
-
-                return allocatedFreeTile;
-            }
-        }
-
-        private GameObject AllocateHealthPacks(GameObject healthPack)
-        {
-            if (freeHealthPacks.Count == 0)
-                freeHealthPacks.Add(CreateFreeObject(healthPack));
-
-            var allocatedHelathPack = freeHealthPacks[freeHealthPacks.Count - 1];
-            allocatedHelathPack.SetActive(true);
-            allocatedHelathPack.transform.parent = healthPackParent.transform;
-            allocatedHealthPacks.Add(allocatedHelathPack);
-            freeHealthPacks.Remove(allocatedHelathPack);
-
-            return allocatedHelathPack;
-        }
-
-        private void UpdateHealthPacks(int minSection, int maxSection)
-        {
-            if (sectionChange == true)
-            {
-                for (int i = 0; i < allocatedHealthPacks.Count; i++)
-                {
-                    var healthPack = allocatedHealthPacks[i];
-                    healthPack.SetActive(false);
-                    freeHealthPacks.Add(healthPack);
-                }
-
-                allocatedHealthPacks.Clear();
-                healthPackSections.Clear();
-
-                for (int i = minSection; i <= maxSection; i++)
-                {
-                    if (healthPackSections.Contains(i) == false) // 타일과 겹치지 않게 수정.
-                    {
-                        healthPackSections.Add(i);
-
-                        random = new System.Random(i);
-
-                        var x = random.Next(i * 10 + 1, (i + 1) * 10);
-                        var y = random.Next(1, 10);
-
-                        PlaceObject(x, y, healthPackPrefab);
-                    }
-                }
-            }
+            createdObject.transform.localPosition = position;
         }
     }
 }

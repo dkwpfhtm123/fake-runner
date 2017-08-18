@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.6.1f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -78,10 +80,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\FakeRunner\Scripts\Unity\BackGroundAnimation.cs" />
+    <Compile Include="Assets\FakeRunner\Scripts\Unity\BackGrounds.cs" />
     <Compile Include="Assets\FakeRunner\Scripts\Unity\BackGroundParallax.cs" />
+    <Compile Include="Assets\FakeRunner\Scripts\Unity\Food.cs" />
+    <Compile Include="Assets\FakeRunner\Scripts\Unity\FoodHealthPack.cs" />
+    <Compile Include="Assets\FakeRunner\Scripts\Unity\GameObjectPool.cs" />
+    <Compile Include="Assets\FakeRunner\Scripts\Unity\Kumba.cs" />
     <Compile Include="Assets\FakeRunner\Scripts\Unity\MapCreator.cs" />
     <Compile Include="Assets\FakeRunner\Scripts\Unity\MovieManager.cs" />
+    <Compile Include="Assets\FakeRunner\Scripts\Unity\RandomSpriteChanger.cs" />
     <Compile Include="Assets\FakeRunner\Scripts\Unity\Runner.cs" />
     <Compile Include="Assets\FakeRunner\Scripts\Unity\RunnerAnimation.cs" />
     <Compile Include="Assets\FakeRunner\Scripts\Unity\RunnerTracker.cs" />
@@ -90,6 +97,7 @@
     <Compile Include="Assets\FakeRunner\Scripts\Unity\Super.cs" />
     <Compile Include="Assets\FakeRunner\Scripts\Unity\TileAnimation.cs" />
     <Compile Include="Assets\FakeRunner\Scripts\Unity\TileJump.cs" />
+    <Compile Include="Assets\FakeRunner\Scripts\Unity\TilePool.cs" />
     <Compile Include="Assets\FakeRunner\Scripts\Unity\UIManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

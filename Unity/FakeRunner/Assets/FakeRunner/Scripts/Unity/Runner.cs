@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Fake.FakeRunner.Unity
 {
@@ -9,6 +10,7 @@ namespace Fake.FakeRunner.Unity
     public class Runner : MonoBehaviour
     {
         #region Fields
+        [SerializeField]
         private Vector3 velocity;
         [SerializeField]
         private MapCreator mapCreator;
@@ -22,6 +24,7 @@ namespace Fake.FakeRunner.Unity
         private float maxSpeed;
         private int jumpNumber;
         private bool isAirborne;
+        private float countdown;
 
         public event RunnerEventHandler PositionChanged;
 
@@ -36,16 +39,23 @@ namespace Fake.FakeRunner.Unity
             get { return canControl; }
             set { canControl = value; }
         }
+
+        public float MaxSpeed
+        {
+            get { return maxSpeed; }
+        }
         #endregion
 
         private void Awake()
         {
             transformCache = GetComponent<Transform>();
             Velocity = Vector3.zero;
-            maxSpeed = 5.0f;
+            maxSpeed = 8.0f;
             jumpNumber = 0;
             isAirborne = false;
             CanControl = true;
+
+            countdown = 3.0f;
         }
 
         private void Update()
@@ -86,6 +96,14 @@ namespace Fake.FakeRunner.Unity
 
                 Move();
 
+                countdown -= Super.Instance.GameplayTimeline.DeltaTime;
+
+                if (countdown < 0.0f)
+                {
+                    countdown = 3.0f;
+                    HealthDown(0.1f);
+                }
+
                 if (healthBar.value < 0.00001f)
                     Super.Instance.GameOver();
             }
@@ -94,301 +112,83 @@ namespace Fake.FakeRunner.Unity
                 PositionChanged(this);
         }
 
-        public IEnumerator HealthDown()
+        public void HealthDown(float value)
         {
-            var interval = 1.0f * Super.Instance.GameplayTimeline.Scale + Super.Instance.GameplayTimeline.CurrentTime;
-            healthDownValue = 0.05f;
+            healthBar.value -= healthDownValue;
 
-            while (true)
-            {
-                if (interval < Super.Instance.GameplayTimeline.CurrentTime && healthBar.value > 0.0f)
-                {
-                    interval = 1.0f * Super.Instance.GameplayTimeline.Scale + Super.Instance.GameplayTimeline.CurrentTime;
-                    healthBar.value -= healthDownValue;
-                }
-
-                yield return null;
-            }
+            if (healthBar.value < 0.0f)
+                healthBar.value = 0.0f;
         }
 
-        public void HealthUp(float upValue)
+        public void HealthUp(float value)
         {
-            healthBar.value += upValue;
+            healthBar.value += value;
 
             if (healthBar.value > 1.0f)
                 healthBar.value = 1.0f;
         }
 
-        #region Move()
         private void Move()
         {
-            #region TileColliderCheck
-            var allocatedTiles = mapCreator.AllocatedTiles;
+            var movement = transformCache.localPosition + velocity * Super.Instance.GameplayTimeline.DeltaTime;
 
-            var oldPosition = new Vector2(transformCache.localPosition.x, transformCache.localPosition.y);
-            var currentPosition = oldPosition + (new Vector2(velocity.x, velocity.y) * Super.Instance.GameplayTimeline.DeltaTime);
+            var hitResult = new RaycastHit2D[4];
+            var exValue = Vector3.zero;
+            var direction = velocity.normalized;
 
-            var minPoint = new Vector2(-9999.9f, -9999.9f);
-            var minNormal = Vector2.zero;
-            GameObject mintile = null;
-            var isCollision = false;
+            var number = GetComponent<Rigidbody2D>().Cast(direction, hitResult, (velocity.magnitude) * Super.Instance.GameplayTimeline.DeltaTime);
 
-            var minPointOfPoint = Vector2.zero;
+            var healthPackPool = mapCreator.HealthpackPool;
 
-            var checkAirborne = false;
-
-            foreach (var tile in allocatedTiles)
+            if (isAirborne == false)
             {
-                var tilePosition = tile.transform.localPosition;
+                if (GetComponent<Rigidbody2D>().Cast(Vector3.down, new RaycastHit2D[4], 0.5f) == 0)
+                    isAirborne = true;
+            }
 
-                var xMin = tilePosition.x;
-                var xMax = tilePosition.x + 1.0f;
-                var yMin = tilePosition.y - 1.0f;
-                var yMax = tilePosition.y;
+            if (number != 0)
+            {
+                var minHit = hitResult[0];
+                var minDistance = 100.0f;
 
-                var normal = new Vector2(0.0f, 0.0f);
-
-                // float 비교는 Mathf.Approximately
-
-                var BottomRight = IntersectsLineRectangle(oldPosition + new Vector2(0.4f, 0.0f), currentPosition + new Vector2(0.4f, 0.0f), xMin, yMin, xMax, yMax, out normal);
-                if (BottomRight.HasValue)
+                for (int i = 0; i < number; i++)
                 {
-                    if ((oldPosition - minPoint).sqrMagnitude > (oldPosition - BottomRight.Value).sqrMagnitude)
+                    if (hitResult[i].distance < minDistance)
                     {
-                        minPoint = BottomRight.Value;
-                        minPointOfPoint = new Vector2(-0.4001f, 0.0001f);
-                        isCollision = true;
-                        minNormal = normal;
-                        mintile = tile;
+                        minDistance = hitResult[i].distance;
+                        minHit = hitResult[i];
                     }
                 }
 
-                var BottomLeft = IntersectsLineRectangle(oldPosition + new Vector2(-0.4f, 0.0f), currentPosition + new Vector2(-0.4f, 0.0f), xMin, yMin, xMax, yMax, out normal);
-                if (BottomLeft.HasValue)
+                if (minHit.collider.gameObject.GetComponent<Food>() != null)
+                    minHit.collider.gameObject.GetComponent<Food>().Eat(this);
+                else if (minHit.collider.gameObject.GetComponent<Kumba>() != null)
+                    minHit.collider.gameObject.GetComponent<Kumba>().KumbaFree();
+                else // collider = tilePool
                 {
-                    if ((oldPosition - minPoint).sqrMagnitude > (oldPosition - BottomLeft.Value).sqrMagnitude)
+                    if (minHit.normal.x != 0)
                     {
-                        minPoint = BottomLeft.Value;
-                        minPointOfPoint = new Vector2(0.4001f, 0.0001f);
-                        isCollision = true;
-                        minNormal = normal;
-                        mintile = tile;
+                        velocity.x = 0;
+                        exValue += new Vector3(minHit.normal.x * 0.01f, 0);
                     }
-                }
-
-                var TopRight = IntersectsLineRectangle(oldPosition + new Vector2(0.4f, 0.8f), currentPosition + new Vector2(0.4f, 0.8f), xMin, yMin, xMax, yMax, out normal);
-                if (TopRight.HasValue)
-                {
-                    if ((oldPosition - minPoint).sqrMagnitude > (oldPosition - TopRight.Value).sqrMagnitude)
+                    else if (minHit.normal.y > 0)
                     {
-                        minPoint = TopRight.Value;
-                        minPointOfPoint = new Vector2(-0.4001f, -0.8001f);
-                        isCollision = true;
-                        minNormal = normal;
-                        mintile = tile;
+                        velocity.y = 0;
+                        exValue += new Vector3(0, 0.01f);
+                        jumpNumber = 0;
+                        isAirborne = false;
                     }
-                }
-
-                var TopLeft = IntersectsLineRectangle(oldPosition + new Vector2(-0.4f, 0.8f), currentPosition + new Vector2(-0.4f, 0.8f), xMin, yMin, xMax, yMax, out normal);
-                if (TopLeft.HasValue)
-                {
-                    if ((oldPosition - minPoint).sqrMagnitude > (oldPosition - TopLeft.Value).sqrMagnitude)
+                    else if (minHit.normal.y < 0)
                     {
-                        minPoint = TopLeft.Value;
-                        minPointOfPoint = new Vector2(0.4001f, -0.8001f);
-                        isCollision = true;
-                        minNormal = normal;
-                        mintile = tile;
+                        velocity.y = 0;
+                        exValue += new Vector3(0, -0.01f);
                     }
-                }
 
-                var CheckAirborneLeft = IntersectsLineRectangle(oldPosition + new Vector2(-0.4f, 0.0f), oldPosition + new Vector2(-0.4f, -0.1f), xMin, yMin, xMax, yMax, out normal);
-                var CheckAirborneRight = IntersectsLineRectangle(oldPosition + new Vector2(0.4f, 0.0f), oldPosition + new Vector2(0.4f, -0.1f), xMin, yMin, xMax, yMax, out normal);
-
-                if ((CheckAirborneLeft.HasValue || CheckAirborneRight.HasValue))
-                    checkAirborne = true;
-            }
-
-            if (checkAirborne == true)
-                isAirborne = false;
-            else
-                isAirborne = true;
-
-            if (minNormal.x > 0.0f)
-            {
-                minPoint.x += 0.01f;
-                velocity.x = 0.0f;
-            }
-            else if (minNormal.x < 0.0f)
-            {
-                minPoint.x += -0.01f;
-                velocity.x = 0.0f;
-            }
-
-            if (minNormal.y > 0.0f)
-            {
-                minPoint.y += 0.05f;
-                isAirborne = false;
-                velocity.y = 0.0f;
-                jumpNumber = 0;
-            }
-            else if (minNormal.y < 0.0f)
-            {
-                minPoint.y += -0.05f;
-                velocity.y = 0.0f;
-
-                mintile.GetComponent<TileJump>().StartTileJumping();
-            }
-
-            if (isCollision == true)
-            {
-
-                foreach (var tile in allocatedTiles)
-                {
-                    var tilePosition = tile.transform.localPosition;
-
-                    if (IntersectsPointRectangle(minPoint, tilePosition.x, tilePosition.x + 1.0f, tilePosition.y - 1.0f, tilePosition.y) == true)
-                    {
-                        Debug.Log("inside");
-                        if (minPoint.y + 0.5f > tilePosition.y)
-                            minPoint.y = tilePosition.y;
-                        else
-                            minPoint.y = tilePosition.y - 1.0f;
-                    }
-                }
-
-                transformCache.localPosition = minPoint + minPointOfPoint;
-            }
-            else
-                transformCache.localPosition += velocity * Super.Instance.GameplayTimeline.DeltaTime;
-            #endregion
-
-            var healthPacks = mapCreator.HealthPacks;
-
-            foreach (var pack in healthPacks)
-            {
-                var packPosition = pack.transform.localPosition;
-
-                var xMin = packPosition.x;
-                var xMax = packPosition.x + 0.8f;
-                var yMin = packPosition.y - 0.8f;
-                var yMax = packPosition.y;
-
-                if (pack.activeSelf == true && (
-                IntersectsPointRectangle(transformCache.localPosition + new Vector3(0.5f, 0), xMin, xMax, yMin, yMax) == true ||
-                IntersectsPointRectangle(transformCache.localPosition + new Vector3(-0.5f, 0), xMin, xMax, yMin, yMax) == true ||
-                IntersectsPointRectangle(transformCache.localPosition + new Vector3(0.5f, 0.5f), xMin, xMax, yMin, yMax) == true ||
-                IntersectsPointRectangle(transformCache.localPosition + new Vector3(0.5f, -0.5f), xMin, xMax, yMin, yMax) == true))
-                {
-                    SoundManager.Instance.PlayCoinSound();
-                    pack.SetActive(false);
-                    HealthUp(0.10f);
+                    movement = transformCache.localPosition + direction * minHit.distance + exValue;
                 }
             }
-            #endregion
-        }
 
-        #region ColliderCheckMethod
-        public static Vector2? IntersectsLineRectangle(Vector2 p0, Vector2 p1, float xMin, float yMin, float xMax, float yMax, out Vector2 normal)
-        {
-            var tMin = 0.0f;
-            var tMax = float.MaxValue;
-
-            var distance = 0.0f;
-            normal = new Vector2(0.0f, 0.0f);
-
-            var direction = (p1 - p0).normalized;
-
-            if (Mathf.Abs(direction.x) < 0.000001f)
-            {
-                if (p0.x < xMin || xMax < p0.x)
-                    return null;
-            }
-            else
-            {
-                var ood = 1.0f / direction.x;
-                var t1 = (xMin - p0.x) * ood;
-                var t2 = (xMax - p0.x) * ood;
-
-                if (t1 <= t2)
-                {
-                    if (tMin < t1)
-                    {
-                        tMin = t1;
-                        normal = new Vector2(-1.0f, 0.0f);
-                    }
-                    tMax = Mathf.Min(tMax, t2);
-                }
-                else
-                {
-                    if (tMin < t2)
-                    {
-                        tMin = t2;
-                        normal = new Vector2(1.0f, 0.0f);
-                    }
-                    tMax = Mathf.Min(tMax, t1);
-                }
-
-                if (tMin > tMax)
-                    return null;
-            }
-
-            if (Mathf.Abs(direction.y) < 0.000001f)
-            {
-                if (p0.y < yMin || yMax < p0.y)
-                    return null;
-            }
-            else
-            {
-                var ood = 1.0f / direction.y;
-                var t1 = (yMin - p0.y) * ood;
-                var t2 = (yMax - p0.y) * ood;
-
-                if (t1 <= t2)
-                {
-                    if (tMin < t1)
-                    {
-                        tMin = t1;
-                        normal = new Vector2(0.0f, -1.0f);
-                    }
-                    tMax = Mathf.Min(tMax, t2);
-                }
-                else
-                {
-                    if (tMin < t2)
-                    {
-                        tMin = t2;
-                        normal = new Vector2(0.0f, 1.0f);
-                    }
-                    tMax = Mathf.Min(tMax, t1);
-                }
-
-                if (tMin > tMax)
-                    return null;
-            }
-            distance = tMin; // ray 길이
-
-            var point = p0 + distance * direction;
-
-            if ((p1 - p0).magnitude < (point - p0).magnitude)
-                return null;
-            else
-            {
-                return p0 + distance * direction;
-            }
-        }
-        #endregion
-
-        private bool IntersectsPointRectangle(Vector2 point, float xMin, float xMax, float yMin, float yMax)
-        {
-            if ((xMin <= point.x && point.x <= xMax) && (yMin <= point.y && point.y <= yMax))
-            {
-                return true;
-            }
-
-            return false;
+            GetComponent<Rigidbody2D>().MovePosition(movement);
         }
     }
 }
-
-

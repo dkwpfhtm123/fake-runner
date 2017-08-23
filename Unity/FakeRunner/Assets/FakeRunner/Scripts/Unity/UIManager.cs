@@ -22,8 +22,11 @@ namespace Fake.FakeRunner.Unity
         {
             optionPanelPlaying = false;
 
-            gameoverPanel.SetActive(false);
-            optionPanel.SetActive(false);
+            if (gameoverPanel != null)
+                gameoverPanel.SetActive(false);
+
+            if (optionPanel != null)
+                optionPanel.SetActive(false);
         }
 
         public void PlayOpenOptionPanel()
@@ -59,6 +62,11 @@ namespace Fake.FakeRunner.Unity
         public void PlayGameOverUI()
         {
             StartCoroutine(GameOverAnimation());
+        }
+
+        public void QuitGame()
+        {
+            Application.Quit();
         }
 
         private IEnumerator GameOverAnimation()

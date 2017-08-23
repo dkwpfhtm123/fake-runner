@@ -6,7 +6,7 @@ namespace Fake.FakeRunner.Unity
     {
         #region Fields
         [SerializeField]
-        private new Camera camera;
+        private Camera cameraCache;
         [SerializeField]
         private GameObject[] backgrounds;
         #endregion
@@ -20,7 +20,7 @@ namespace Fake.FakeRunner.Unity
         public void PlaceBackground(GameObject background)
         {
             var back = Instantiate(background);
-            back.GetComponent<BackgroundParallax>().Initialize(camera);
+            back.GetComponent<BackgroundParallax>().Initialize(cameraCache);
         }
     }
 }

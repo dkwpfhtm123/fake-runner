@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: bdfe72de0bd10194ca7794a1ee8eacac
-timeCreated: 1503436604
+timeCreated: 1503470911
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -125,6 +125,7 @@ TextureImporter:
     21300236: button_0_118_green
     21300238: button_0_119_blue
     21300240: EmptyButton
+    21300242: BoxButton
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -278,6 +279,19 @@ TextureImporter:
         height: 550
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BoxButton
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 661
+        width: 550
+        height: 550
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

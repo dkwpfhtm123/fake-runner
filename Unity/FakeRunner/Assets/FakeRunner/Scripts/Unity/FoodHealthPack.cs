@@ -6,8 +6,12 @@ namespace Fake.FakeRunner.Unity
     {
         public override void Eat(Runner runner)
         {
-            Debug.Log("getit");
-            runner.HealthUp(0.2f);
+            runner.ChangeHealth(0.2f);
+            Hide();
+        }
+
+        private void Hide()
+        {
             gameObject.SetActive(false);
         }
     }

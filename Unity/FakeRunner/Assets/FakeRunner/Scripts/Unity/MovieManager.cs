@@ -10,14 +10,15 @@ namespace Fake.FakeRunner.Unity
         [SerializeField]
         private GameObject runner;
         [SerializeField]
-        private GameObject emptyBlackCircle;
+        private GameObject blackHole;
         [SerializeField]
         private GameObject blackBox;
 
         private Coroutine currentMovie;
-        private List<GameObject> blackBoxs;
+        private List<GameObject> blackBoxes;
         private bool onPlayingMovie;
         private Transform runnerTransformCache;
+        #endregion
 
         public bool OnPlayingMovie
         {
@@ -25,49 +26,25 @@ namespace Fake.FakeRunner.Unity
             set { onPlayingMovie = value; }
         }
 
-        public Coroutine Movie
+        public Coroutine CurrentMovie
         {
             get { return currentMovie; }
         }
-        #endregion
 
-        void Start()
+        private void Start()
         {
-            //      onPlayingMovie = false;
             runnerTransformCache = runner.GetComponent<Transform>();
-            blackBoxs = new List<GameObject>();
+            blackBoxes = new List<GameObject>();
         }
 
-        public void StartMovie()
+        public void StartFirstMovie()
         {
             if (runnerTransformCache == null)
                 runnerTransformCache = runner.GetComponent<Transform>();
 
             runnerTransformCache.localPosition = new Vector3(-8, 0);
 
-            currentMovie = StartCoroutine(UpPipe());
-        }
-
-        private IEnumerator UpPipe()
-        {
-            onPlayingMovie = true;
-
-            runner.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionY;
-
-            SoundManager.Instance.PlayPipeSound();
-
-            var duration = 1.0f;
-            var startTime = Super.Instance.GameplayTimeline.CurrentTime;
-            var endTime = startTime + duration;
-
-            while (Super.Instance.GameplayTimeline.CurrentTime < endTime)
-            {
-                runnerTransformCache.localPosition += new Vector3(0, Super.Instance.GameplayTimeline.DeltaTime * 2.2f, 0);
-                yield return null;
-            }
-
-            onPlayingMovie = false;
-            runner.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+            currentMovie = StartCoroutine(FirstMovie());
         }
 
         public void StartEndMovie()
@@ -75,51 +52,67 @@ namespace Fake.FakeRunner.Unity
             currentMovie = StartCoroutine(EndMovie());
         }
 
-        public void StopEndMovie()
+        public void StopMovie()
         {
-            StopCoroutine(currentMovie);
+            if (currentMovie != null)
+                StopCoroutine(currentMovie);
+        }
+
+        public void ClearBlackBoxes()
+        {
+            if (blackBoxes.Count != 0)
+            {
+                var temp = blackBoxes;
+                foreach (var box in temp)
+                {
+                    Destroy(box);
+                }
+
+                blackBoxes.Clear();
+            }
+        }
+
+        private IEnumerator FirstMovie()
+        {
+            onPlayingMovie = true;
+            Super.Instance.PlayPipeSound();
+
+            var countDown = 1.0f;
+            while (countDown > 0.0f)
+            {
+                countDown -= Super.Instance.GameplayTimeline.DeltaTime;
+                runnerTransformCache.localPosition += new Vector3(0, Super.Instance.GameplayTimeline.DeltaTime * 2.2f, 0);
+                yield return null;
+            }
+
+            onPlayingMovie = false;
         }
 
         private IEnumerator EndMovie()
         {
-            Super.Instance.GameplayTimeline.StopTime();
+            Super.Instance.GameplayTimeline.SetTimeScale(0.0f);
 
             if (runnerTransformCache == null)
                 runnerTransformCache = runner.GetComponent<Transform>();
 
-            //      onPlayingMovie = true;
+            onPlayingMovie = true;
 
-            var value = 5.5f;
+            var value = 9.5f;
 
-            var createdEmptyBlackCircle = Instantiate(emptyBlackCircle);
-            SetBoxPosition(createdEmptyBlackCircle, runnerTransformCache.localPosition, new Vector3(1, 1), Quaternion.identity);
-            blackBoxs.Add(createdEmptyBlackCircle);
-
-            var upBox = Instantiate(blackBox);
-            SetBoxPosition(upBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(0, value, 0), new Vector3(10, 4), Quaternion.identity);
-            blackBoxs.Add(upBox);
-
-            var downBox = Instantiate(blackBox);
-            SetBoxPosition(downBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(0, -value, 0), new Vector3(10, 4), Quaternion.identity);
-            blackBoxs.Add(downBox);
-
-            var rightBox = Instantiate(blackBox);
-            SetBoxPosition(rightBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(value, 0, 0), new Vector3(10, 4), Quaternion.Euler(0, 0, 90));
-            blackBoxs.Add(rightBox);
-
-            var leftBox = Instantiate(blackBox);
-            SetBoxPosition(rightBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(-value, 0, 0), new Vector3(10, 4), Quaternion.Euler(0, 0, 90));
-            blackBoxs.Add(leftBox);
+            var createdEmptyBlackCircle = CreateBox(blackHole, runnerTransformCache.localPosition, new Vector3(1, 1), Quaternion.identity);
+            var upBox = CreateBox(blackBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(0, value, 0), new Vector3(20, 8), Quaternion.identity);
+            var downBox = CreateBox(blackBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(0, -value, 0), new Vector3(20, 8), Quaternion.identity);
+            var rightBox = CreateBox(blackBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(value, 0, 0), new Vector3(20, 8), Quaternion.Euler(0, 0, 90));
+            var leftBox = CreateBox(blackBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(-value, 0, 0), new Vector3(20, 8), Quaternion.Euler(0, 0, 90));
 
             var countDown = 3.0f;
 
             while (countDown > 0.0f)
             {
-                Debug.Log(countDown);
                 var minimum = countDown;
 
-                if (minimum < 1.0f)
-                    minimum = 1.0f;
+                if (minimum < 1.5f)
+                    minimum = 1.5f;
 
                 countDown -= Super.Instance.AnimationTimeline.DeltaTime;
 
@@ -127,31 +120,32 @@ namespace Fake.FakeRunner.Unity
 
                 var temp = value * minimum;
 
-                SetBoxPosition(upBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(0, temp, 0), new Vector3(10, 4) * minimum, Quaternion.identity);
-                SetBoxPosition(downBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(0, -temp, 0), new Vector3(10, 4) * minimum, Quaternion.identity);
-                SetBoxPosition(leftBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(temp, 0, 0), new Vector3(10, 4) * minimum, Quaternion.Euler(0, 0, 90));
-                SetBoxPosition(rightBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(-temp, 0, 0), new Vector3(10, 4) * minimum, Quaternion.Euler(0, 0, 90));
+                SetBoxPosition(upBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(0, temp, 0), new Vector3(20, 8) * minimum, Quaternion.identity);
+                SetBoxPosition(downBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(0, -temp, 0), new Vector3(20, 8) * minimum, Quaternion.identity);
+                SetBoxPosition(leftBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(temp, 0, 0), new Vector3(20, 8) * minimum, Quaternion.Euler(0, 0, 90));
+                SetBoxPosition(rightBox, createdEmptyBlackCircle.transform.localPosition + new Vector3(-temp, 0, 0), new Vector3(20, 8) * minimum, Quaternion.Euler(0, 0, 90));
 
                 yield return null;
             }
+
+            onPlayingMovie = false;
         }
 
-        public void ClearBlackBoxs()
+        private GameObject CreateBox(GameObject box, Vector3 position, Vector3 scale, Quaternion rotation)
         {
-            var temp = blackBoxs;
-            foreach (var box in temp)
-            {
-                Destroy(box);
-            }
+            var createdBox = Instantiate(box);
+            SetBoxPosition(createdBox, position, scale, rotation);
+            blackBoxes.Add(createdBox);
 
-            blackBoxs.Clear();
+            return createdBox;
         }
 
-        private void SetBoxPosition(GameObject box, Vector3 position, Vector3 scale, Quaternion rotation) // 선택형 매개변수 사용법? quaternion
+        private void SetBoxPosition(GameObject box, Vector3 position, Vector3 scale, Quaternion rotation)
         {
-            box.transform.localPosition = position;
-            box.transform.localScale = scale;
-            box.transform.localRotation = rotation;
+            var boxTransformCache = box.transform;
+            boxTransformCache.localPosition = position;
+            boxTransformCache.localScale = scale;
+            boxTransformCache.localRotation = rotation;
         }
     }
 }

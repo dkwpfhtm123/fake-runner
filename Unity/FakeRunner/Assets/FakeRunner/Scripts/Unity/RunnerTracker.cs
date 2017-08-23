@@ -12,13 +12,13 @@ namespace Fake.FakeRunner.Unity
 
         private Transform transformCache;
         private Transform runnerTransformCache;
+        #endregion
 
         public Vector3 Offset
         {
             get { return offset; }
             set { offset = value; }
         }
-        #endregion
 
         private void Awake()
         {
@@ -40,7 +40,19 @@ namespace Fake.FakeRunner.Unity
         private void OnRunnerPositionChanged(Runner sender)
         {
             if (runner == sender)
-                transformCache.localPosition = runnerTransformCache.localPosition + offset;
+            {
+                var position = runnerTransformCache.localPosition + offset;
+
+                if (position.y < 4.5f)
+                    position.y = 4.5f;
+                else if (position.y > 8.0f)
+                    position.y = 8.0f;
+
+                if (position.x < -0.4f)
+                    position.x = -0.4f;
+
+                transformCache.localPosition = position;
+            }
         }
     }
 }

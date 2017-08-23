@@ -1,11 +1,11 @@
 fileFormatVersion: 2
 guid: c5cb3b6ed32f73a428f84c8cad0f37a3
-timeCreated: 1501757530
+timeCreated: 1503349849
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: ParachuteKumba#1
-    21300002: ParachuteKumba#2
+    21300000: RightParachuteKumba
+    21300002: MiddleParachuteKumba
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -72,7 +72,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ParachuteKumba#1
+      name: RightParachuteKumba
       rect:
         serializedVersion: 2
         x: 229
@@ -85,7 +85,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: ParachuteKumba#2
+      name: MiddleParachuteKumba
       rect:
         serializedVersion: 2
         x: 253

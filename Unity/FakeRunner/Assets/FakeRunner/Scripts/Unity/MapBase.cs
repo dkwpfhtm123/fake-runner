@@ -3,22 +3,21 @@ using System.Collections.Generic;
 
 namespace Fake.FakeRunner.Unity
 {
-    public class GameObjectPool
+    public class MapBase
     {
         #region Fields
         private List<GameObject> freeObjects;
-        private List<GameObject> allocateObjects;
+        private List<GameObject> allocatedObjects;
         private GameObject prefab;
         private GameObject parent;
         #endregion
 
-        public GameObjectPool(GameObject prefab, GameObject parent, string parentName)
+        public MapBase(GameObject prefab, GameObject parent)
         {
             freeObjects = new List<GameObject>();
-            allocateObjects = new List<GameObject>();
+            allocatedObjects = new List<GameObject>();
             this.prefab = prefab;
-            this.parent = MonoBehaviour.Instantiate(parent);
-            this.parent.name = parentName;
+            this.parent = parent;
         }
 
         private GameObject CreateFreeGameObject()
@@ -35,7 +34,7 @@ namespace Fake.FakeRunner.Unity
 
             var allocatedFreeObject = freeObjects[freeObjects.Count - 1];
             allocatedFreeObject.SetActive(true);
-            allocateObjects.Add(allocatedFreeObject);
+            allocatedObjects.Add(allocatedFreeObject);
             freeObjects.Remove(allocatedFreeObject);
 
             return allocatedFreeObject;
@@ -45,7 +44,7 @@ namespace Fake.FakeRunner.Unity
         {
             gameObject.SetActive(false);
             freeObjects.Add(gameObject);
-            allocateObjects.Remove(gameObject);
+            allocatedObjects.Remove(gameObject);
         }
     }
 }

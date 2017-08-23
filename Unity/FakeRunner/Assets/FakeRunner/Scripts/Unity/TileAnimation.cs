@@ -17,7 +17,12 @@ namespace Fake.FakeRunner.Unity
             spriteRendererCache = GetComponent<SpriteRenderer>();
         }
 
-        public IEnumerator DoAnimateTile()
+        public void StartAnimation()
+        {
+            StartCoroutine(DoAnimation());
+        }
+
+        private IEnumerator DoAnimation()
         {
             var time = 0.0f;
 

@@ -14,6 +14,8 @@ namespace Fake.FakeRunner.Unity
         [SerializeField]
         private MovieManager movieManager;
         [SerializeField]
+        private SoundManager soundManager;
+        [SerializeField]
         private UIManager uiManager;
         [SerializeField]
         private Text score;
@@ -24,8 +26,7 @@ namespace Fake.FakeRunner.Unity
 
         private static Super instance;
         private Runner runnerCache;
-        private bool stopAnimationTime;
-        private bool stopGamePlayTime;
+        #endregion
 
         public Timeline GameplayTimeline
         {
@@ -37,18 +38,6 @@ namespace Fake.FakeRunner.Unity
             get { return animationTimeline; }
         }
 
-        public bool StopAnimationTime
-        {
-            set { stopAnimationTime = value; }
-        }
-
-        public bool StopGameplayTime
-        {
-            set { stopGamePlayTime = value; }
-        }
-
-        #endregion
-
         public static Super Instance
         {
             get
@@ -59,29 +48,40 @@ namespace Fake.FakeRunner.Unity
             }
         }
 
-        void Awake()
-        {
-            if (instance == null)
-                instance = this;
-        }
+              private void Awake()
+              {
+                  if (instance == null)
+                      instance = this;
+              } 
 
-        public void Start()
+        private void Start()
         {
             runnerCache = runner.GetComponent<Runner>();
 
             gameplayTimeline = new Timeline(1.0f);
             animationTimeline = new Timeline(1.0f);
 
-            stopAnimationTime = false;
-            stopGamePlayTime = false;
-
-            StartMovie();
+            StartFirstMovie();
         }
 
         private void Update()
         {
             gameplayTimeline.Update();
             animationTimeline.Update();
+        }
+
+        public void SetRunnerControl(bool value)
+        {
+            runnerCache.CanControl = value;
+        }
+
+        public void Initialize()
+        {
+            runnerCache.Initialize();
+            mapCreator.Initialize();
+            ClearBlackBoxes();
+            gameplayTimeline.SetTimeScale(1.0f);
+            animationTimeline.SetTimeScale(1.0f);
         }
 
         #region Timeline
@@ -99,7 +99,6 @@ namespace Fake.FakeRunner.Unity
 
             public float CurrentTime
             {
-                set { currentTime = value; }
                 get { return currentTime; }
             }
 
@@ -116,11 +115,6 @@ namespace Fake.FakeRunner.Unity
                 currentTime += deltaTime;
             }
 
-            public void StopTime()
-            {
-                scale = 0;
-            }
-
             public void SetTimeScale(float value)
             {
                 scale = value;
@@ -132,36 +126,9 @@ namespace Fake.FakeRunner.Unity
     #region MovieManager
     public partial class Super
     {
-        public void StartMovie()
+        public void StartFirstMovie()
         {
-            mapCreator.FreeAllPool();
-            mapCreator.Restart();
             StartCoroutine(FirstMovie());
-        }
-
-        public void SetRunnerControl(bool value)
-        {
-            runnerCache.CanControl = value;
-        }
-
-        private IEnumerator FirstMovie()
-        {
-            runnerCache.CanControl = false;
-            movieManager.OnPlayingMovie = true;
-            stopAnimationTime = true;
-            runnerCache.HealthUp(1.0f);
-
-            movieManager.StartMovie();
-
-            while (movieManager.OnPlayingMovie == true)
-            {
-                yield return null;
-            }
-
-            runnerCache.CanControl = true;
-            stopAnimationTime = false;
-
-            runner.GetComponent<RunnerAnimation>().StartAnimation();
         }
 
         public void EndMovie()
@@ -169,19 +136,72 @@ namespace Fake.FakeRunner.Unity
             movieManager.StartEndMovie();
         }
 
-        public void ClearBlackBoxs()
+        public void ClearBlackBoxes()
         {
-            movieManager.StopEndMovie();
-            movieManager.ClearBlackBoxs();
+            movieManager.StopMovie();
+            movieManager.ClearBlackBoxes();
         }
 
-        public void GameOver()
+        public void PlayGameOver()
         {
+            PlayGameOverSound();
             EndMovie();
-            stopAnimationTime = true;
-            score.text = "SCORE : " + Super.instance.GameplayTimeline.CurrentTime;
-            uiManager.GameOver();
+            score.text = "SCORE : " + instance.GameplayTimeline.CurrentTime;
+            uiManager.PlayGameOverUI();
+        }
+
+        private IEnumerator FirstMovie()
+        {
+            SetRunnerControl(false);
+            movieManager.StartFirstMovie();
+            while (movieManager.OnPlayingMovie == true)
+            {
+                yield return null;
+            }
+
+            SetRunnerControl(true);
+            runner.GetComponent<RunnerAnimation>().StartAnimation();
         }
     }
-}
     #endregion
+
+    #region SoundManager
+    public partial class Super
+    {
+        public void PlayJumpSound()
+        {
+            soundManager.PlayJumpSound();
+        }
+
+        public void PlayPauseSound()
+        {
+            soundManager.PlayPauseSound();
+        }
+
+        public void PlayCoinSound()
+        {
+            soundManager.PlayCoinSound();
+        }
+
+        public void PlayRunnerHitSound()
+        {
+            soundManager.PlayRunnerHitSound();
+        }
+
+        public void PlayPipeSound()
+        {
+            soundManager.PlayPipeSound();
+        }
+
+        public void PlayGameOverSound()
+        {
+            soundManager.PlayGameOverSound();
+        }
+
+        public void ChangeVolume(float value)
+        {
+            soundManager.AudioVolume = value;
+        }
+    }
+    #endregion
+}

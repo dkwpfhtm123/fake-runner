@@ -13,32 +13,23 @@ namespace Fake.FakeRunner.Unity
         [SerializeField]
         private AudioClip coinSound;
         [SerializeField]
-        private AudioClip stageclearSound;
+        private AudioClip runnerHitSound;
         [SerializeField]
         private AudioClip pipeSound;
+        [SerializeField]
+        private AudioClip gameOverSound;
 
         private AudioSource myAudio;
-        private static SoundManager instance;
         private float currentVolume;
         #endregion
 
-        public static SoundManager Instance
+        public float AudioVolume
         {
-            get
-            {
-                if (instance == null)
-                    instance = new SoundManager();
-                return instance;
-            }
+            get { return myAudio.volume; }
+            set { myAudio.volume = value; }
         }
 
-        void Awake()
-        {
-            if (instance == null)
-                instance = this;
-        }
-
-        void Start()
+        private void Start()
         {
             myAudio = GetComponent<AudioSource>();
         }
@@ -58,9 +49,9 @@ namespace Fake.FakeRunner.Unity
             myAudio.PlayOneShot(coinSound);
         }
 
-        public void PlayStageClearSound()
+        public void PlayRunnerHitSound()
         {
-            myAudio.PlayOneShot(stageclearSound);
+            myAudio.PlayOneShot(runnerHitSound);
         }
 
         public void PlayPipeSound()
@@ -68,9 +59,9 @@ namespace Fake.FakeRunner.Unity
             myAudio.PlayOneShot(pipeSound);
         }
 
-        public void ChangeVolume(Slider slider)
+        public void PlayGameOverSound()
         {
-            myAudio.volume = slider.value;
+            myAudio.PlayOneShot(gameOverSound);
         }
     }
 }

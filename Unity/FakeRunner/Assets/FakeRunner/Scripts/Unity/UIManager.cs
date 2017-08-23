@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 namespace Fake.FakeRunner.Unity
@@ -16,63 +15,48 @@ namespace Fake.FakeRunner.Unity
         [SerializeField]
         private CanvasGroup gameoverBackground;
 
-        private bool OptionIsPlaying;
+        private bool optionPanelPlaying;
         #endregion
 
-        void Start()
+        private void Start()
         {
-            OptionIsPlaying = false;
+            optionPanelPlaying = false;
 
             gameoverPanel.SetActive(false);
             optionPanel.SetActive(false);
         }
 
-        public void OpenOptionPanel()
+        public void PlayOpenOptionPanel()
         {
-            if (OptionIsPlaying == false && optionPanel.activeSelf == false)
+            if (optionPanelPlaying == false && optionPanel.activeSelf == false)
             {
-                SoundManager.Instance.PlayPauseSound();
-                StartCoroutine(OpenOptionPanelAnimation());
+                Super.Instance.PlayPauseSound();
+                StartCoroutine(OptionPanelAnimation());
             }
 
             optionPanel.SetActive(true);
         }
 
-        private IEnumerator OpenOptionPanelAnimation()
+        public void RestartButton()
         {
-            Super.Instance.SetRunnerControl(false);
-            OptionIsPlaying = true;
-            optionBackground.alpha = 0.0f;
-
-            var duration = 0.5f;
-            var startTime = Time.time;
-            var endTime = startTime + duration;
-
-            while (Time.time < endTime)
-            {
-                var elaspedTime = Time.time - startTime;
-                var time = elaspedTime / duration;
-
-                optionBackground.alpha = Mathf.Lerp(0, 1, time);
-                yield return null;
-            }
-
-            optionBackground.alpha = 1.0f;
-
-            OptionIsPlaying = false;
+            gameoverPanel.SetActive(false);
+            Super.Instance.Initialize();
+            Super.Instance.StartFirstMovie();
         }
 
         public void CloseOptionPanel()
         {
-            if (OptionIsPlaying == false)
+            if (optionPanelPlaying == false)
             {
-                SoundManager.Instance.PlayPauseSound();
+                Super.Instance.PlayPauseSound();
                 Super.Instance.SetRunnerControl(true);
                 optionPanel.SetActive(false);
+
+                Super.Instance.GameplayTimeline.SetTimeScale(1.0f);
             }
         }
 
-        public void GameOver()
+        public void PlayGameOverUI()
         {
             StartCoroutine(GameOverAnimation());
         }
@@ -82,7 +66,7 @@ namespace Fake.FakeRunner.Unity
             gameoverPanel.SetActive(true);
 
             Super.Instance.SetRunnerControl(false);
-            Super.Instance.GameplayTimeline.StopTime();
+            Super.Instance.GameplayTimeline.SetTimeScale(0.0f);
 
             gameoverBackground.alpha = 1.0f;
 
@@ -102,17 +86,26 @@ namespace Fake.FakeRunner.Unity
             gameoverBackground.alpha = 1.0f;
         }
 
-        public void RestartButton()
+        private IEnumerator OptionPanelAnimation()
         {
-            gameoverPanel.SetActive(false);
-            Super.Instance.SetRunnerControl(true);
-            Super.Instance.GameplayTimeline.SetTimeScale(1.0f);
-            Super.Instance.AnimationTimeline.SetTimeScale(1.0f);
-            Super.Instance.GameplayTimeline.CurrentTime = 0.0f;
+            Super.Instance.GameplayTimeline.SetTimeScale(0.0f);
+            optionPanelPlaying = true;
+            optionBackground.alpha = 0.0f;
 
-            Super.Instance.ClearBlackBoxs();
+            var countDown = 0.5f;
+            var duration = countDown;
 
-            Super.Instance.StartMovie();
+            while (countDown > 0.0f)
+            {
+                var value = duration - countDown;
+                countDown -= Super.Instance.AnimationTimeline.DeltaTime;
+                optionBackground.alpha = Mathf.Lerp(0, 1, value);
+                yield return null;
+            }
+
+            optionPanelPlaying = false;
+            optionBackground.alpha = 1.0f;
         }
+
     }
 }

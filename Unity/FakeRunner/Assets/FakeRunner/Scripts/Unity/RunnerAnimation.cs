@@ -16,10 +16,9 @@ namespace Fake.FakeRunner.Unity
         private Sprite rightIdle;
 
         private SpriteRenderer spriteRendererCache;
-        private IEnumerator animationCoroutine;
         #endregion
 
-        void Start()
+        private void Start()
         {
             spriteRendererCache = GetComponent<SpriteRenderer>();
             StartAnimation();
@@ -27,40 +26,36 @@ namespace Fake.FakeRunner.Unity
 
         public void StartAnimation()
         {
-            StartCoroutine(runnerAnimation());
+            StartCoroutine(DoAnimation());
         }
 
-        private IEnumerator runnerAnimation()
+        private IEnumerator DoAnimation()
         {
             var time = 0.0f;
-            var temp = false;
+            var lookDirection = false;
 
             while (true)
             {
                 if (spriteRendererCache == null)
                     spriteRendererCache = GetComponent<SpriteRenderer>();
 
-                var velocity = runner.GetComponent<Runner>().Velocity;
-                var maxSpeed = runner.GetComponent<Runner>().MaxSpeed;
+                var runnerCache = runner.GetComponent<Runner>();
+                var velocity = runnerCache.Velocity;
+                var maxSpeed = runnerCache.MaxSpeed;
 
                 time += (Mathf.Abs(velocity.x) / maxSpeed) * Super.Instance.GameplayTimeline.DeltaTime * 10;
 
-                if (Mathf.Sign(velocity.x) < 0)
-                {
-                    temp = true;
-                    spriteRendererCache.flipX = temp;
-                }
-                else if (velocity.x == 0)
-                    spriteRendererCache.flipX = temp;
+                if (velocity.x == 0)
+                    spriteRendererCache.flipX = lookDirection;
                 else
                 {
-                    temp = false;
-                    spriteRendererCache.flipX = temp;
+                    lookDirection = Mathf.Sign(velocity.x) < 0;
+                    spriteRendererCache.flipX = lookDirection;
                 }
 
-                if (Mathf.Abs(velocity.x) < 0.01f)
+                if (Mathf.Abs(velocity.x) < 0.5f)
                     spriteRendererCache.sprite = rightIdle;
-                else if (Mathf.Abs(velocity.x) < 7.0f)
+                else if (Mathf.Abs(velocity.x) < 8.0f)
                     spriteRendererCache.sprite = rightWalk[Mathf.FloorToInt(time) % rightWalk.Length];
                 else
                     spriteRendererCache.sprite = rightRoll[Mathf.FloorToInt(time * 2) % rightRoll.Length];

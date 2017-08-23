@@ -120,7 +120,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\FakeRunner\Editor\Scripts\Unity\RunnerEditor.cs" />
     <Compile Include="Assets\FakeRunner\Editor\Scripts\Unity\RunnerTrackerEditor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

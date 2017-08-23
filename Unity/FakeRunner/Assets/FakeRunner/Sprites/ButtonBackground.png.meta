@@ -1,13 +1,30 @@
 fileFormatVersion: 2
-guid: 95e7fdb2a442a4e499e772f2e0f281ac
-timeCreated: 1496052054
+guid: de57d1b2b68bdf64b8d595fc78e942a3
+timeCreated: 1503436141
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: flag_1_0_orange
+    21300002: flag_1_1_red
+    21300004: flag_1_2_yelow
+    21300006: flag_1_3_violet
+    21300008: flag_1_4_green
+    21300010: panel_1_5_vertical
+    21300012: panel_mini_1_6_horizontal
+    21300014: panel_medium_1_7_horizontal
+    21300016: PanelBackground
+    21300018: button_1_9_yelow
+    21300020: button_1_10_green
+    21300022: button_1_11_blue
+    21300024: button_1_12_orange
+    21300026: button_1_13_yelow_0
+    21300028: button_1_10_green_0
+    21300030: button_1_11_blue_0
+    21300032: button_1_12_orange_0
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -24,22 +41,22 @@ TextureImporter:
   generateCubemap: 6
   cubemapConvolution: 0
   seamlessCubemap: 0
-  textureFormat: 1
+  textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
     filterMode: 0
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 9
-  spritePivot: {x: -5.3155347e-10, y: 0.061608076}
-  spriteBorder: {x: 0, y: 19, z: 0, w: 0}
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -68,7 +85,20 @@ TextureImporter:
     overridden: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: PanelBackground
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2919
+        width: 2887
+        height: 1667
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 

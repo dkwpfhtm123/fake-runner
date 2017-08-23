@@ -1,10 +1,10 @@
 fileFormatVersion: 2
 guid: 081b3b114037fb2408b2735650002722
-timeCreated: 1494806392
+timeCreated: 1503436641
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: NES - Super Mario Bros 3 - Stage Elements_0
+    21300000: Pipe
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -71,7 +71,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: NES - Super Mario Bros 3 - Stage Elements_0
+      name: Pipe
       rect:
         serializedVersion: 2
         x: 853

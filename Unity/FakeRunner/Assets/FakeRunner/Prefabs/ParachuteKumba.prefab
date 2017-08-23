@@ -78,9 +78,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86ec8b6a6ecc424eac7e50da44b0bec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parachuteKumbaAnimation:
-  - {fileID: 21300000, guid: c5cb3b6ed32f73a428f84c8cad0f37a3, type: 3}
-  - {fileID: 21300002, guid: c5cb3b6ed32f73a428f84c8cad0f37a3, type: 3}
+  rightParachuteKumbaSprite: {fileID: 21300000, guid: c5cb3b6ed32f73a428f84c8cad0f37a3,
+    type: 3}
+  middleParachuteKumbaSprite: {fileID: 21300002, guid: c5cb3b6ed32f73a428f84c8cad0f37a3,
+    type: 3}
 --- !u!212 &212694089781900940
 SpriteRenderer:
   m_ObjectHideFlags: 1

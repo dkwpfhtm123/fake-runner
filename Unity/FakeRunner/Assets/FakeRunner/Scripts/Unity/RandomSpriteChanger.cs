@@ -11,18 +11,16 @@ namespace Fake.FakeRunner.Unity
         private SpriteRenderer spriteRenderer;
         #endregion
 
-        void Start()
+        private void Start()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
-
             ChangeSprite();
         }
 
         private void ChangeSprite()
         {
-            var random = new System.Random(Random.Range(1, 10));
-
-            spriteRenderer.sprite = sprites[random.Next(0, sprites.Length)];
+            var value = Random.Range(0, sprites.Length);
+            spriteRenderer.sprite = sprites[value];
         }
     }
 }

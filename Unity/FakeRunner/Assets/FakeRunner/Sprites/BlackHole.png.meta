@@ -1,10 +1,10 @@
 fileFormatVersion: 2
 guid: 7b7fd927e45a9ee4f84152a7415fe54e
-timeCreated: 1502706220
+timeCreated: 1503431598
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: EmptyCircleinBlackBox
+    21300000: BlackHole
     21300002: BlackBox
   serializedVersion: 4
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: EmptyCircleinBlackBox
+      name: BlackHole
       rect:
         serializedVersion: 2
         x: 277
@@ -80,7 +80,7 @@ TextureImporter:
         width: 300
         height: 300
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -93,7 +93,7 @@ TextureImporter:
         width: 200
         height: 200
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

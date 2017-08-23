@@ -5,12 +5,12 @@ namespace Fake.FakeRunner.Unity
 {
     public class SceneChanger : MonoBehaviour
     {
-        public void ToGamePlayScene()
+        public void GoToGamePlayScene()
         {
             SceneManager.LoadScene("GamePlay");
         }
 
-        public void ToMainScene()
+        public void GoToMainScene()
         {
             SceneManager.LoadScene("Main");
         }

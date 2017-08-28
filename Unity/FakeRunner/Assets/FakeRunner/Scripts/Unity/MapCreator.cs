@@ -86,7 +86,7 @@ namespace Fake.FakeRunner.Unity
             for (int k = 0; k < count; k++)
             {
                 var randomValue = Random.Range(0, 10);
-                var position = AllocateRandomVector(randomValue, (section - 1) * 10 + 1, (section + 1) * 10 + 10, 10, 15);
+                var position = AllocateRandomVector(randomValue, (section - 1) * 10 + 1, (section + 1) * 10 + 10, 15, 20);
                 var createdobject = parachuteKumbas.Allocate();
                 createdobject.GetComponent<Kumba>().Initialize(position, this);
             }
@@ -122,10 +122,11 @@ namespace Fake.FakeRunner.Unity
                 FreeAllTiles();
                 mapPositions.Clear();
 
-                if (currentSection < 0)
+                if (currentSection < 1)
                     StartSectionTile(currentSection);
 
                 PlaceSection(currentSection - 1, currentSection + 1);
+                HideTiles(currentSection);
             }
         }
 
@@ -155,14 +156,19 @@ namespace Fake.FakeRunner.Unity
 
         private void StartSectionTile(int startSection)
         {
-            for (int k = 0; k < 20; k++)
-                goldTiles.PlaceObject(new Vector2(startSection * 10, k));
-
             // Pipe
             goldTiles.PlaceObject(new Vector2(-8, 1));
             goldTiles.PlaceObject(new Vector2(-8, 2));
             goldTiles.PlaceObject(new Vector2(-9, 1));
             goldTiles.PlaceObject(new Vector2(-9, 2));
+        }
+
+        private void HideTiles(int section)
+        {
+            for (int k = 0; k < 20; k++)
+            {
+                goldTiles.PlaceObject(new Vector3((section-1) * 10, k));
+            }
         }
 
         private void PlaceSection(int minSection, int maxSection)

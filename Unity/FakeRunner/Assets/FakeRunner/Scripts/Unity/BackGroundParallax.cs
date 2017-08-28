@@ -8,24 +8,23 @@ namespace Fake.FakeRunner.Unity
         [SerializeField]
         private float offset;
 
-        private Camera cameraCache;
         private Transform transformCache;
         private Transform cameraTransformCache;
         #endregion
 
         private void Update()
         {
-            transformCache.localPosition = new Vector3(cameraCache.transform.localPosition.x - cameraCache.transform.localPosition.x / offset % 20, 5);
+            if (transformCache != null)
+                transformCache.localPosition = new Vector3(cameraTransformCache.localPosition.x - cameraTransformCache.localPosition.x / offset % 20, 5);
         }
 
         public void Initialize(Camera camera)
         {
             transformCache = GetComponent<Transform>();
-            this.cameraCache = camera;
 
-            if (cameraTransformCache == null)
-                cameraTransformCache = camera.GetComponent<Transform>();
-
+            if (camera == null)
+                Debug.Log("null");
+            cameraTransformCache = camera.GetComponent<Transform>();
             transformCache.localPosition = new Vector3(cameraTransformCache.localPosition.x, 5);
         }
     }

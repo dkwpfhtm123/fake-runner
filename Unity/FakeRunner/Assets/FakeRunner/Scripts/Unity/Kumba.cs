@@ -49,9 +49,9 @@ namespace Fake.FakeRunner.Unity
 
         private void MoveKumba()
         {
-            var elapsedTime = Super.Instance.AnimationTimeline.CurrentTime - startTime;
+            var elapsedTime = Super.Instance.GameplayTimeline.CurrentTime - startTime;
             var time = elapsedTime / duration * 0.5f;
-            transformCache.localPosition = new Vector3(firstPosition.x + Mathf.Sin(time * Mathf.PI), transformCache.localPosition.y - 0.05f);
+            transformCache.localPosition = new Vector3(firstPosition.x + Mathf.Sin(time * Mathf.PI), transformCache.localPosition.y - 3.0f * Super.Instance.GameplayTimeline.DeltaTime);
 
             var nextSprite = rightParachuteKumbaSprite;
             var sinValue = Mathf.Sin(time * Mathf.PI);

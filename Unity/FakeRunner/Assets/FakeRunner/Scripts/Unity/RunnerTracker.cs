@@ -12,6 +12,8 @@ namespace Fake.FakeRunner.Unity
 
         private Transform transformCache;
         private Transform runnerTransformCache;
+        private float currentSection;
+        private float lastSection;
         #endregion
 
         public Vector3 Offset
@@ -23,12 +25,25 @@ namespace Fake.FakeRunner.Unity
         private void Awake()
         {
             transformCache = GetComponent<Transform>();
+            currentSection = 0.0f;
+            lastSection = -100.0f;
 
             if (runner != null)
             {
                 runnerTransformCache = runner.GetComponent<Transform>();
                 runner.PositionChanged += OnRunnerPositionChanged;
             }
+        }
+
+        private void Update()
+        {
+            currentSection = Mathf.FloorToInt(transformCache.localPosition.x / 10);
+        }
+
+        public void Initialize()
+        {
+            SetPosition(Vector3.zero);
+            lastSection = -100.0f;
         }
 
         private void OnDestroy()
@@ -43,16 +58,24 @@ namespace Fake.FakeRunner.Unity
             {
                 var position = runnerTransformCache.localPosition + offset;
 
+                if (lastSection < currentSection)
+                    lastSection = currentSection;
+
                 if (position.y < 4.5f)
                     position.y = 4.5f;
                 else if (position.y > 8.0f)
                     position.y = 8.0f;
 
-                if (position.x < -0.4f)
-                    position.x = -0.4f;
+                if (position.x < lastSection * 10)
+                    position.x = lastSection * 10;
 
-                transformCache.localPosition = position;
+                SetPosition(position);
             }
+        }
+
+        private void SetPosition(Vector3 position)
+        {
+            transformCache.localPosition = position;
         }
     }
 }

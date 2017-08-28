@@ -121,8 +121,7 @@ namespace Fake.FakeRunner.Unity
 
             if (healthBar.value > 1.0f)
                 healthBar.value = 1.0f;
-
-            if (healthBar.value < 0.0f)
+            else if (healthBar.value < 0.0f)
                 healthBar.value = 0.0f;
         }
 
@@ -185,26 +184,26 @@ namespace Fake.FakeRunner.Unity
                     kumba.Free();
                     ChangeHealth(-0.2f);
                 }
-                else // collider = tilePool
+                 // collider = tiles
                 {
                     if (minHits.distance > 0.001f)
                     {
                         if (minHits.normal.x != 0)
                         {
                             velocity.x = 0;
-                            exValue += new Vector3(minHits.normal.x * 0.005f, 0);
+                            exValue += new Vector3(minHits.normal.x * 0.008f, 0);
                         }
                         else if (minHits.normal.y > 0)
                         {
                             velocity.y = 0;
-                            exValue += new Vector3(0, 0.005f);
+                            exValue += new Vector3(0, 0.008f);
                             jumpCount = 0;
                             isAirborne = false;
                         }
                         else if (minHits.normal.y < 0)
                         {
                             velocity.y = 0;
-                            exValue += new Vector3(0, -0.005f);
+                            exValue += new Vector3(0, -0.008f);
                         }
 
                         movement = transformCache.localPosition + direction * minHits.distance + exValue;

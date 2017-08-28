@@ -79,6 +79,7 @@ namespace Fake.FakeRunner.Unity
         {
             runnerCache.Initialize();
             mapCreator.Initialize();
+            mapCreator.GetComponent<RunnerTracker>().Initialize();
             ClearBlackBoxes();
             gameplayTimeline.SetTimeScale(1.0f);
             animationTimeline.SetTimeScale(1.0f);

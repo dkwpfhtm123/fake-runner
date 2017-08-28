@@ -1812,7 +1812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e55d1d16d238a042b27ec1efdc028c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 1613237227}
+  cameraCache: {fileID: 1613237227}
   backgrounds:
   - {fileID: 1551137112132714, guid: 1e8ae75c6f44c684dbf64419c5bdcdf2, type: 2}
   - {fileID: 1325973997798710, guid: ee275866d2f1c5e4382b71bd928ddd1f, type: 2}
